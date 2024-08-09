@@ -1,0 +1,21 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "20.3.1",
+    "sdksVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2",
+      "@microsoft/teams-js": "2.12.0"
+    },
+    "version": "1.19.0",
+    "libraryName": "readreciept",
+    "libraryId": "0ad9c1d7-29b9-490b-8def-46448e10f6bc",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "readreciept",
+    "solutionShortDescription": "readreciept description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}
