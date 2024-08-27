@@ -1,4 +1,4 @@
-declare interface ISharepointWebpartWebPartStrings {
+declare interface IFeedbackManagerWebPartStrings {
   PropertyPaneDescription: string;
   BasicGroupName: string;
   DescriptionFieldLabel: string;
@@ -13,7 +13,7 @@ declare interface ISharepointWebpartWebPartStrings {
   UnknownEnvironment: string;
 }
 
-declare module 'SharepointWebpartWebPartStrings' {
-  const strings: ISharepointWebpartWebPartStrings;
+declare module 'FeedbackManagerWebPartStrings' {
+  const strings: IFeedbackManagerWebPartStrings;
   export = strings;
 }

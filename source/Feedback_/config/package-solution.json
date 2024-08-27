@@ -1,8 +1,8 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
-    "name": "readreciept-client-side-solution",
-    "id": "0ad9c1d7-29b9-490b-8def-46448e10f6bc",
+    "name": "feedback-client-side-solution",
+    "id": "e22174af-2e45-4a8a-9b91-df209161be6e",
     "version": "1.0.0.0",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
@@ -16,10 +16,10 @@
     },
     "metadata": {
       "shortDescription": {
-        "default": "readreciept description"
+        "default": "feedback description"
       },
       "longDescription": {
-        "default": "readreciept description"
+        "default": "feedback description"
       },
       "screenshotPaths": [],
       "videoUrl": "",
@@ -27,14 +27,14 @@
     },
     "features": [
       {
-        "title": "readreciept Feature",
-        "description": "The feature that activates elements of the readreciept solution.",
-        "id": "0de3a837-18de-42eb-8f26-0642457268b9",
+        "title": "feedback Feature",
+        "description": "The feature that activates elements of the feedback solution.",
+        "id": "1e15123d-2667-486e-8266-7ed8ddedc416",
         "version": "1.0.0.0"
       }
     ]
   },
   "paths": {
-    "zippedPackage": "solution/readreciept.sppkg"
+    "zippedPackage": "solution/feedback.sppkg"
   }
 }

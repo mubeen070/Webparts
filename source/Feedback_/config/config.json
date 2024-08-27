@@ -1,0 +1,19 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "feedback-manager-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/feedbackManager/FeedbackManagerWebPart.js",
+          "manifest": "./src/webparts/feedbackManager/FeedbackManagerWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "FeedbackManagerWebPartStrings": "lib/webparts/feedbackManager/loc/{locale}.js",
+    "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js"
+  }
+}
