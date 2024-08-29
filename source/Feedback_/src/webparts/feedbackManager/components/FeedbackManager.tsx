@@ -7,7 +7,7 @@ import { DateTimePicker, DateConvention, TimeConvention } from '@pnp/spfx-contro
 interface IFeedbackManagerState {
   startDate: Date | undefined;
   endDate: Date | undefined;
-  isEndDateValid: boolean; // New state to track date comparison
+  isEndDateValid: boolean;
 }
 
 export default class FeedbackManager extends React.Component<IFeedbackManagerProps, IFeedbackManagerState> {
@@ -56,23 +56,19 @@ export default class FeedbackManager extends React.Component<IFeedbackManagerPro
       environmentMessage,
       hasTeamsContext,
       userDisplayName,
-      toggle,
-      dropdown
+      toggle, // Toggle property from web part
+      dropdown // Dropdown property from web part
     } = this.props;
-
-    // Debugging: Console log to check values
-    console.log('Toggle Value:', toggle);
-    console.log('Dropdown Value:', dropdown);
 
     // Ensure dropdown is defined and has a valid value
     const safeDropdown = dropdown || 'No selection';
 
-    console.log('Start Date:', this.state.startDate);
-    console.log('End Date:', this.state.endDate);
-
     // Convert date to a readable format
     const formattedStartDate = this.state.startDate ? this.state.startDate.toLocaleString() : 'Not set';
     const formattedEndDate = this.state.endDate ? this.state.endDate.toLocaleString() : 'Not set';
+
+    // Determine the background color based on dropdown value
+    const backgroundColor = safeDropdown.toLowerCase();
 
     return (
       <section className={`${styles.feedbackManager} ${hasTeamsContext ? styles.teams : ''}`}>
@@ -82,14 +78,14 @@ export default class FeedbackManager extends React.Component<IFeedbackManagerPro
             src={isDarkTheme ? require('../assets/welcome-dark.png') : require('../assets/welcome-light.png')} 
             className={styles.welcomeImage} 
           />
-          <h2>Well done Mate, {escape(userDisplayName)}!</h2>
+          <h2>Welcome, {escape(userDisplayName)}!</h2>
           <div>{environmentMessage}</div>
           <div>Web part property value (Description): <strong>{escape(description)}</strong></div>
           <div>Web part property value (Toggle): <strong>{toggle ? 'On' : 'Off'}</strong></div>
           <div>Web part property value (Dropdown): <strong>{escape(safeDropdown)}</strong></div>
         </div>
 
-       
+        {/* DateTimePicker Controls for Start and End Times */}
         <div>
           <DateTimePicker 
             label="Start Time - 12h"
@@ -108,12 +104,25 @@ export default class FeedbackManager extends React.Component<IFeedbackManagerPro
           />
         </div>
 
-        
+        {/* Displaying Start and End Dates */}
         <div>
           <p>Start Date: {formattedStartDate}</p>
           <p>End Date: {formattedEndDate}</p>
           {!this.state.isEndDateValid && <p style={{ color: 'red' }}>End date must be after the start date.</p>}
         </div>
+
+        {/* Conditionally Render Random Text Div with Inline Styling based on Toggle and Dropdown */}
+        {toggle && (
+          <div style={{ 
+            marginTop: '20px', 
+            padding: '10px', 
+            backgroundColor: backgroundColor, // Set background color dynamically
+            border: '1px solid #ddd', 
+            borderRadius: '5px' 
+          }}>
+            <p>This is some random text that can be enabled or disabled using the toggle button.</p>
+          </div>
+        )}
       </section>
     );
   }

@@ -129,16 +129,16 @@ export default class FeedbackManagerWebPart extends BaseClientSideWebPart<IFeedb
                   multiline: true,
                 }),
                 PropertyPaneToggle("toggle", {
-                  label: "Toggle",
+                  label: "Notification",
                   onText: "On",
                   offText: "Off",
                 }),
                 PropertyPaneDropdown("dropdown", {
-                  label: "Dropdown",
+                  label: "Notification Type",
                   options: [
-                    { key: "1", text: "1" },
-                    { key: "2", text: "2" },
-                    { key: "3", text: "3" },
+                    { key: "Red", text: "Alert" },
+                    { key: "Yellow", text: "Warning" },
+                    { key: "Green", text: "Okay" },
                   ],
                 }),
               ],
