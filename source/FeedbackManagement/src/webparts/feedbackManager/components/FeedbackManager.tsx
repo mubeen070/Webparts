@@ -104,19 +104,19 @@ export default class FeedbackManager extends React.Component<IFeedbackManagerPro
           />
         </div>
 
-        {/* Displaying Start and End Dates */}
+        
         <div>
           <p>Start Date: {formattedStartDate}</p>
           <p>End Date: {formattedEndDate}</p>
           {!this.state.isEndDateValid && <p style={{ color: 'red' }}>End date must be after the start date.</p>}
         </div>
 
-        {/* Conditionally Render Random Text Div with Inline Styling based on Toggle and Dropdown */}
+        
         {toggle && (
           <div style={{ 
             marginTop: '20px', 
             padding: '10px', 
-            backgroundColor: backgroundColor, // Set background color dynamically
+            backgroundColor: backgroundColor, 
             border: '1px solid #ddd', 
             borderRadius: '5px' 
           }}>
