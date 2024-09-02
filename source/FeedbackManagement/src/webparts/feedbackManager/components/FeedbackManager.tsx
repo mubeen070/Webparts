@@ -12,22 +12,24 @@ interface IFeedbackManagerState {
   startDate: Date | undefined;
   endDate: Date | undefined;
   shouldDisplayDiv: boolean;
+  currentTime: Date;
 }
 
 export default class FeedbackManager extends React.Component<
   IFeedbackManagerProps,
   IFeedbackManagerState
 > {
-  private intervalId: number | undefined; // Changed type to number | undefined
+  private intervalId: number | undefined; 
 
   constructor(props: IFeedbackManagerProps) {
     super(props);
 
-    // Initialize state with default dates
+    // Initialize state with default dates and current time
     this.state = {
       startDate: new Date(),
       endDate: new Date(),
       shouldDisplayDiv: false,
+      currentTime: new Date(), // Set initial current time
     };
 
     // Bind event handlers
@@ -36,9 +38,10 @@ export default class FeedbackManager extends React.Component<
   }
 
   componentDidMount(): void {
-    // Set up interval to check date and time conditions periodically
+    // Set up intervals for checking date and time conditions and updating the clock
     this.intervalId = window.setInterval(() => {
       this.checkDisplayConditions();
+      this.updateClock();
     }, 1000);
   }
 
@@ -47,6 +50,11 @@ export default class FeedbackManager extends React.Component<
     if (this.intervalId) {
       window.clearInterval(this.intervalId);
     }
+  }
+
+  
+  private updateClock(): void {
+    this.setState({ currentTime: new Date() });
   }
 
   // Handler for start date change
@@ -122,6 +130,9 @@ export default class FeedbackManager extends React.Component<
     // Determine the background color based on dropdown value
     const backgroundColor = safeDropdown.toLowerCase();
 
+    // Format current time for display
+    const formattedCurrentTime = this.state.currentTime.toLocaleTimeString();
+
     return (
       <section
         className={`${styles.feedbackManager} ${
@@ -175,6 +186,8 @@ export default class FeedbackManager extends React.Component<
         <div>
           <p>Start Date: {formattedStartDate}</p>
           <p>End Date: {formattedEndDate}</p>
+          <p>Current Time: {formattedCurrentTime}</p>{" "}
+          {/* Display the live clock */}
         </div>
 
         {this.state.shouldDisplayDiv && (
@@ -182,7 +195,7 @@ export default class FeedbackManager extends React.Component<
             style={{
               marginTop: "20px",
               padding: "10px",
-              backgroundColor: backgroundColor, // Set background color dynamically
+              backgroundColor: backgroundColor,
               border: "1px solid #ddd",
               borderRadius: "5px",
             }}
