@@ -11,6 +11,7 @@ declare interface IFeedbackManagerWebPartStrings {
   AppOfficeEnvironment: string;
   AppOutlookEnvironment: string;
   UnknownEnvironment: string;
+  WelcomeMessage: string;
 }
 
 declare module 'FeedbackManagerWebPartStrings' {

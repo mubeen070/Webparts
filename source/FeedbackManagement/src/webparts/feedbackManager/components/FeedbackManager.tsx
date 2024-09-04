@@ -2,46 +2,30 @@ import * as React from "react";
 import styles from "./FeedbackManager.module.scss";
 import type { IFeedbackManagerProps } from "./IFeedbackManagerProps";
 import { escape } from "@microsoft/sp-lodash-subset";
-import {
-  DateTimePicker,
-  DateConvention,
-  TimeConvention,
-} from "@pnp/spfx-controls-react/lib/DateTimePicker";
 
 interface IFeedbackManagerState {
-  startDate: Date | undefined;
-  endDate: Date | undefined;
   shouldDisplayDiv: boolean;
-  currentTime: Date;
 }
 
 export default class FeedbackManager extends React.Component<
   IFeedbackManagerProps,
   IFeedbackManagerState
 > {
-  private intervalId: number | undefined; 
+  private intervalId: number | undefined;
 
   constructor(props: IFeedbackManagerProps) {
     super(props);
 
-    // Initialize state with default dates and current time
+    // Initialize state
     this.state = {
-      startDate: new Date(),
-      endDate: new Date(),
       shouldDisplayDiv: false,
-      currentTime: new Date(), // Set initial current time
     };
-
-    // Bind event handlers
-    this.handleStartDateChange = this.handleStartDateChange.bind(this);
-    this.handleEndDateChange = this.handleEndDateChange.bind(this);
   }
 
   componentDidMount(): void {
-    // Set up intervals for checking date and time conditions and updating the clock
+    // Set up interval to check date and time conditions periodically
     this.intervalId = window.setInterval(() => {
       this.checkDisplayConditions();
-      this.updateClock();
     }, 1000);
   }
 
@@ -52,27 +36,9 @@ export default class FeedbackManager extends React.Component<
     }
   }
 
-  
-  private updateClock(): void {
-    this.setState({ currentTime: new Date() });
-  }
-
-  // Handler for start date change
-  private handleStartDateChange(date: Date | undefined): void {
-    this.setState(
-      { startDate: date || undefined },
-      this.checkDisplayConditions
-    );
-  }
-
-  // Handler for end date change
-  private handleEndDateChange(date: Date | undefined): void {
-    this.setState({ endDate: date || undefined }, this.checkDisplayConditions);
-  }
-
   // Method to check if the current date and time is between the start date and end date
   private isCurrentDateTimeBetweenDates(): boolean {
-    const { startDate, endDate } = this.state;
+    const { startDate, endDate } = this.props;
     const currentDateTime = new Date(); // Current date and time
 
     if (startDate && endDate) {
@@ -84,7 +50,7 @@ export default class FeedbackManager extends React.Component<
 
   // Method to check if start date is before or equal to end date
   private isStartDateBeforeEndDate(): boolean {
-    const { startDate, endDate } = this.state;
+    const { startDate, endDate } = this.props;
 
     if (startDate && endDate) {
       return startDate <= endDate;
@@ -107,105 +73,114 @@ export default class FeedbackManager extends React.Component<
 
   public render(): React.ReactElement<IFeedbackManagerProps> {
     const {
-      description,
-      isDarkTheme,
-      environmentMessage,
-      hasTeamsContext,
+      notificationMessage,
       userDisplayName,
-      toggle,
       dropdown,
+      welcome,
+      backgroundImage,
     } = this.props;
 
     // Ensure dropdown is defined and has a valid value
     const safeDropdown = dropdown || "No selection";
 
-    // Convert date to a readable format
-    const formattedStartDate = this.state.startDate
-      ? this.state.startDate.toLocaleString()
-      : "Not set";
-    const formattedEndDate = this.state.endDate
-      ? this.state.endDate.toLocaleString()
-      : "Not set";
-
     // Determine the background color based on dropdown value
     const backgroundColor = safeDropdown.toLowerCase();
 
-    // Format current time for display
-    const formattedCurrentTime = this.state.currentTime.toLocaleTimeString();
+    const divStyle = {
+      backgroundImage: "url(" + escape(backgroundImage) + ")",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+      width: "100%",
+      height: "100%",
+    };
 
     return (
-      <section
-        className={`${styles.feedbackManager} ${
-          hasTeamsContext ? styles.teams : ""
-        }`}
-      >
-        <div className={styles.welcome}>
-          <img
-            alt=""
-            src={
-              isDarkTheme
-                ? require("../assets/welcome-dark.png")
-                : require("../assets/welcome-light.png")
-            }
-            className={styles.welcomeImage}
-          />
-          <h2>Well done Mate, {escape(userDisplayName)}!</h2>
-          <div>{environmentMessage}</div>
-          <div>
-            Web part property value (Description):{" "}
-            <strong>{escape(description)}</strong>
-          </div>
-          <div>
-            Web part property value (Toggle):{" "}
-            <strong>{toggle ? "On" : "Off"}</strong>
-          </div>
-          <div>
-            Web part property value (Dropdown):{" "}
-            <strong>{escape(safeDropdown)}</strong>
-          </div>
-        </div>
-
-        <div>
-          <DateTimePicker
-            label="Start Time - 12h"
-            dateConvention={DateConvention.DateTime}
-            timeConvention={TimeConvention.Hours12}
-            value={this.state.startDate}
-            minDate={new Date()}
-            onChange={this.handleStartDateChange}
-          />
-          <DateTimePicker
-            label="End Time - 12h"
-            dateConvention={DateConvention.DateTime}
-            timeConvention={TimeConvention.Hours12}
-            value={this.state.endDate}
-            onChange={this.handleEndDateChange}
-          />
-        </div>
-
-        <div>
-          <p>Start Date: {formattedStartDate}</p>
-          <p>End Date: {formattedEndDate}</p>
-          <p>Current Time: {formattedCurrentTime}</p>{" "}
-          {/* Display the live clock */}
-        </div>
-
+      <section>
         {this.state.shouldDisplayDiv && (
           <div
+            className={styles.notificationWarring}
             style={{
               marginTop: "20px",
               padding: "10px",
               backgroundColor: backgroundColor,
-              border: "1px solid #ddd",
-              borderRadius: "5px",
+              color: "white",
             }}
           >
-            <p>
-              This is some random text that can be enabled or disabled using the
-              toggle button.
-            </p>
+            <span>Notification :</span> <br />
+            {escape(notificationMessage)}
           </div>
         )}
+
+        <div className={styles.welcome} style={divStyle}>
+          <div className={styles.mainWelcomeTitle}>
+            Welcome,{" "}
+            <div className={styles.mainEmployeeTitle}>
+              {escape(userDisplayName)}!
+            </div>
+          </div>
+
+          <div className={styles.welcomeMessage}>{escape(welcome)}</div>
+
+          <div>
+            <ul className={styles.mainImportantlogoes}>
+              <li>
+                <div>
+                  <img alt="" src={require("../assets/unanet.png")} />
+                </div>
+                <div>
+                  <a href="https://intact-tech.unanet.biz/subcontractor">
+                    Unanet
+                  </a>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <img alt="" src={require("../assets/adp.png")} />
+                </div>
+                <div>
+                  <a href="https://online.adp.com/signin/v1/?APPID=WFNPortal&productId=80e309c3-7085-bae1-e053-3505430b5495">
+                    ADP
+                  </a>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <img alt="" src={require("../assets/helpdesk.png")} />
+                </div>
+                <div>
+                  <a href="">Helpdesk</a>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <img alt="" src={require("../assets/hr.png")} />
+                </div>
+                <div>
+                  <a href="">HR</a>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <img alt="" src={require("../assets/benifits.png")} />
+                </div>
+                <div>
+                  <a href="https://intacttech.sharepoint.com/sites/PeopleOperations/SitePages/Standard-Benefits-Offered.aspx">
+                    Benifits
+                  </a>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <img alt="" src={require("../assets/training.png")} />
+                </div>
+                <div>
+                  <a href="">Training</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
       </section>
     );
   }

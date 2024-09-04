@@ -2,22 +2,32 @@ import * as React from "react";
 import * as ReactDom from "react-dom";
 import { Version } from "@microsoft/sp-core-library";
 import {
-  type IPropertyPaneConfiguration,
+  IPropertyPaneConfiguration,
   PropertyPaneTextField,
   PropertyPaneDropdown,
   PropertyPaneToggle,
 } from "@microsoft/sp-property-pane";
 import { BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
 import { IReadonlyTheme } from "@microsoft/sp-component-base";
+import {
+  PropertyFieldDateTimePicker,
+  DateConvention,
+  TimeConvention,
+} from "@pnp/spfx-property-controls/lib/PropertyFieldDateTimePicker";
 
 import * as strings from "FeedbackManagerWebPartStrings";
 import FeedbackManager from "./components/FeedbackManager";
 import { IFeedbackManagerProps } from "./components/IFeedbackManagerProps";
+import { IDateTimeFieldValue } from "@pnp/spfx-property-controls/lib/PropertyFieldDateTimePicker";
 
 export interface IFeedbackManagerWebPartProps {
-  description: string;
+  notificationMessage: string;
+  welcome: string;
   toggle: boolean;
   dropdown: string;
+  startDate: IDateTimeFieldValue;
+  endDate: IDateTimeFieldValue;
+  backgroundImage: string;
 }
 
 export default class FeedbackManagerWebPart extends BaseClientSideWebPart<IFeedbackManagerWebPartProps> {
@@ -26,14 +36,18 @@ export default class FeedbackManagerWebPart extends BaseClientSideWebPart<IFeedb
 
   public render(): void {
     const element: React.ReactElement<IFeedbackManagerProps> =
-      React.createElement(FeedbackManager,  {
-        description: this.properties.description,
+      React.createElement(FeedbackManager, {
+        notificationMessage: this.properties.notificationMessage,
         isDarkTheme: this._isDarkTheme,
         environmentMessage: this._environmentMessage,
         hasTeamsContext: !!this.context.sdks.microsoftTeams,
         userDisplayName: this.context.pageContext.user.displayName,
-        toggle: this.properties.toggle ?? false, 
-        dropdown: this.properties.dropdown ?? '' 
+        toggle: this.properties.toggle ?? false,
+        dropdown: this.properties.dropdown ?? "",
+        startDate: this.properties.startDate?.value,
+        endDate: this.properties.endDate?.value,
+        welcome: this.properties.welcome,
+        backgroundImage: this.properties.backgroundImage,
       });
 
     ReactDom.render(element, this.domElement);
@@ -47,23 +61,22 @@ export default class FeedbackManagerWebPart extends BaseClientSideWebPart<IFeedb
 
   private _getEnvironmentMessage(): Promise<string> {
     if (!!this.context.sdks.microsoftTeams) {
-      // running in Teams, office.com or Outlook
       return this.context.sdks.microsoftTeams.teamsJs.app
         .getContext()
         .then((context) => {
           let environmentMessage: string = "";
           switch (context.app.host.name) {
-            case "Office": // running in Office
+            case "Office":
               environmentMessage = this.context.isServedFromLocalhost
                 ? strings.AppLocalEnvironmentOffice
                 : strings.AppOfficeEnvironment;
               break;
-            case "Outlook": // running in Outlook
+            case "Outlook":
               environmentMessage = this.context.isServedFromLocalhost
                 ? strings.AppLocalEnvironmentOutlook
                 : strings.AppOutlookEnvironment;
               break;
-            case "Teams": // running in Teams
+            case "Teams":
             case "TeamsModern":
               environmentMessage = this.context.isServedFromLocalhost
                 ? strings.AppLocalEnvironmentTeams
@@ -122,14 +135,18 @@ export default class FeedbackManagerWebPart extends BaseClientSideWebPart<IFeedb
           },
           groups: [
             {
-              groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneTextField("description", {
-                  label: strings.DescriptionFieldLabel,
+                PropertyPaneTextField("notificationMessage", {
+                  label: "Notification Message",
+                  multiline: true,
+                  disabled: false,
+                }),
+                PropertyPaneTextField("welcome", {
+                  label: "Welcome Message",
                   multiline: true,
                 }),
                 PropertyPaneToggle("toggle", {
-                  label: "Notification",
+                  label: "Notification Toggle",
                   onText: "On",
                   offText: "Off",
                 }),
@@ -137,9 +154,33 @@ export default class FeedbackManagerWebPart extends BaseClientSideWebPart<IFeedb
                   label: "Notification Type",
                   options: [
                     { key: "Red", text: "Alert" },
-                    { key: "Yellow", text: "Warning" },
+                    { key: "Orange", text: "Warning" },
                     { key: "Green", text: "Okay" },
                   ],
+                  selectedKey: "Green",
+                }),
+                PropertyFieldDateTimePicker("startDate", {
+                  label: "Start Date",
+                  initialDate: this.properties.startDate,
+                  dateConvention: DateConvention.DateTime,
+                  timeConvention: TimeConvention.Hours12,
+                  onPropertyChange: this.onPropertyPaneFieldChanged.bind(this),
+                  properties: this.properties,
+                  key: "startDateFieldId",
+                }),
+                PropertyFieldDateTimePicker("endDate", {
+                  label: "End Date",
+                  initialDate: this.properties.endDate,
+                  dateConvention: DateConvention.DateTime,
+                  timeConvention: TimeConvention.Hours12,
+                  onPropertyChange: this.onPropertyPaneFieldChanged.bind(this),
+                  properties: this.properties,
+                  key: "endDateFieldId",
+                }),
+                PropertyPaneTextField("backgroundImage", {
+                  label: "Background Image Url",
+                  value:
+                    "https://www.pixelstalk.net/wp-content/uploads/2016/06/Light-blue-wallpaper-hd-quality.jpg",
                 }),
               ],
             },
