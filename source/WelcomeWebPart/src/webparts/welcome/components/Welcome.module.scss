@@ -1,0 +1,71 @@
+@import '~@fluentui/react/dist/sass/References.scss';
+
+.notificationWarring {
+  font-size: 14px;
+  text-align: left;
+  white-space: pre-wrap;
+  padding: 20px;
+}
+
+.welcome {
+  text-align: center;
+  word-wrap: break-word; /* Break long words */
+  overflow: hidden; /* Hide overflow if any */
+}
+
+.mainWelcomeTitle {
+  margin-top: 2em;
+  font-weight: bold;
+  font-size: 26px;
+}
+
+.mainEmployeeTitle {
+  color: #5286ff;
+  font-size: 38px;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+}
+
+.welcomeMessage {
+  text-align: center;
+  white-space: pre-wrap;
+  margin-left: 2em;
+  margin-right: 2em;
+  margin-bottom: 2rem;
+  margin-top: -1rem;
+  padding: 20px;
+}
+
+.mainImportantlogoes {
+  display: flex;
+  justify-content: space-around; /* Adjusts spacing between logos */
+  flex-wrap: nowrap; /* Prevents wrapping to a new line */
+  padding: 0;
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-bottom: 20px;
+  list-style: none;
+}
+
+.mainImportantlogoes li {
+  margin: 0 0px; /* Reduces the space between each logo */
+  flex: 0 1 auto; /* Ensures logos do not stretch, maintaining their natural size */
+  text-align: center; /* Center aligns the logos */
+}
+
+.mainImportantlogoes img {
+  max-width: 100%; /* Ensures the images do not exceed the container width */
+  height: auto; /* Maintains the aspect ratio */
+}
+
+.mainImportantlogoes a {
+  display: block;
+  margin-top: 5px; /* Adds some space between the image and the link */
+  text-decoration: none;
+  color: #424242;
+}
+
+.mainImportantlogoes a:hover {
+  text-decoration: underline;
+}

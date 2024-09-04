@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "welcome-web-part-client-side-solution",
+    "id": "5cd76b8e-4481-4b62-b24a-62443c73fb10",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.19.0"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "welcome-web-part description"
+      },
+      "longDescription": {
+        "default": "welcome-web-part description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "welcome-web-part Feature",
+        "description": "The feature that activates elements of the welcome-web-part solution.",
+        "id": "999a76e1-00a8-46fa-8dd5-5a3f9635bcce",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/welcome-web-part.sppkg"
+  }
+}
