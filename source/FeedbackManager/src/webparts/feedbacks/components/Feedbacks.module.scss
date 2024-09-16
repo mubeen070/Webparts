@@ -1,0 +1,39 @@
+@import '~@fluentui/react/dist/sass/References.scss';
+
+
+
+.container {
+  padding: 20px;
+  max-width: 600px;
+  margin: auto;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.submitAs {
+  margin-bottom: 20px;
+  font-size: 1rem;
+  color: #555;
+}
+
+.textField {
+  margin-bottom: 20px;
+}
+
+.primaryButton {
+  display: block;
+  margin: 0 auto;
+  background-color: #0078d4;
+  color: white;
+}
+
+.primaryButton:hover {
+  background-color: #005a9e;
+}

@@ -1,0 +1,21 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "20.16.0",
+    "sdksVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2",
+      "@microsoft/teams-js": "2.12.0"
+    },
+    "version": "1.19.0",
+    "libraryName": "feedback-manager",
+    "libraryId": "7cdc4123-0374-49a4-a04e-623094ae5695",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "feedback-manager",
+    "solutionShortDescription": "feedback-manager description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}

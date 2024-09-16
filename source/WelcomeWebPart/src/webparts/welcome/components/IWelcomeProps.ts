@@ -4,10 +4,15 @@ export interface IWelcomeProps {
   environmentMessage: string;
   hasTeamsContext: boolean;
   userDisplayName: string;
-  toggle: boolean;
   dropdown: string;
-  startDate: Date; 
+  startDate: Date;
   endDate: Date;
   welcome: string;
   backgroundImage: string;
+  unanet: string;
+  adp: string;
+  helpdesk: string;
+  hr: string;
+  benefits: string;
+  training: string;
 }

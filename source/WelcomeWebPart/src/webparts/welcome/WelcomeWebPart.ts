@@ -5,28 +5,32 @@ import {
   IPropertyPaneConfiguration,
   PropertyPaneTextField,
   PropertyPaneDropdown,
-  PropertyPaneToggle,
 } from "@microsoft/sp-property-pane";
 import { BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
 import { IReadonlyTheme } from "@microsoft/sp-component-base";
 import {
-  PropertyFieldDateTimePicker,
   DateConvention,
+  PropertyFieldDateTimePicker,
+  IDateTimeFieldValue,
   TimeConvention,
 } from "@pnp/spfx-property-controls/lib/PropertyFieldDateTimePicker";
 import * as strings from "WelcomeWebPartStrings";
 import Welcome from "./components/Welcome";
 import { IWelcomeProps } from "./components/IWelcomeProps";
-import { IDateTimeFieldValue } from "@pnp/spfx-property-controls/lib/PropertyFieldDateTimePicker";
 
 export interface IWelcomeWebPartProps {
   notificationMessage: string;
   welcome: string;
-  toggle: boolean;
   dropdown: string;
   startDate: IDateTimeFieldValue;
   endDate: IDateTimeFieldValue;
   backgroundImage: string;
+  unanet: string;
+  adp: string;
+  helpdesk: string;
+  hr: string;
+  benefits: string;
+  training: string;
 }
 
 export default class WelcomeWebPart extends BaseClientSideWebPart<IWelcomeWebPartProps> {
@@ -42,12 +46,17 @@ export default class WelcomeWebPart extends BaseClientSideWebPart<IWelcomeWebPar
         environmentMessage: this._environmentMessage,
         hasTeamsContext: !!this.context.sdks.microsoftTeams,
         userDisplayName: this.context.pageContext.user.displayName,
-        toggle: this.properties.toggle ?? false,
-        dropdown: this.properties.dropdown ?? "",
+        dropdown: this.properties.dropdown,
         startDate: this.properties.startDate?.value,
         endDate: this.properties.endDate?.value,
         welcome: this.properties.welcome,
         backgroundImage: this.properties.backgroundImage,
+        unanet: this.properties.unanet,
+        adp: this.properties.adp,
+        helpdesk: this.properties.helpdesk,
+        hr: this.properties.hr,
+        benefits: this.properties.benefits,
+        training: this.properties.training,
       }
     );
 
@@ -128,6 +137,19 @@ export default class WelcomeWebPart extends BaseClientSideWebPart<IWelcomeWebPar
     return Version.parse("1.0");
   }
 
+  protected onPropertyPaneFieldChanged(
+    propertyPath: string,
+    oldValue: IDateTimeFieldValue,
+    newValue: IDateTimeFieldValue
+  ): void {
+    super.onPropertyPaneFieldChanged(propertyPath, oldValue, newValue);
+
+    if (propertyPath === "startDate" || propertyPath === "endDate") {
+      this.properties[propertyPath] = newValue;
+      this.render(); // Re-render the web part after updating the dates
+    }
+  }
+
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
     return {
       pages: [
@@ -141,48 +163,67 @@ export default class WelcomeWebPart extends BaseClientSideWebPart<IWelcomeWebPar
                 PropertyPaneTextField("notificationMessage", {
                   label: "Notification Message",
                   multiline: true,
+                  resizable: false,
                   disabled: false,
                 }),
                 PropertyPaneTextField("welcome", {
                   label: "Welcome Message",
                   multiline: true,
-                }),
-                PropertyPaneToggle("toggle", {
-                  label: "Notification Toggle",
-                  onText: "On",
-                  offText: "Off",
+                  resizable: false,
                 }),
                 PropertyPaneDropdown("dropdown", {
-                  label: "Notification Type",
+                  label: "Select notification type",
+                  selectedKey: "#5286ff",
                   options: [
                     { key: "Red", text: "Alert" },
                     { key: "Orange", text: "Warning" },
-                    { key: "Green", text: "Okay" },
+                    { key: "#5286ff", text: "Information" },
                   ],
-                  selectedKey: "Green",
                 }),
                 PropertyFieldDateTimePicker("startDate", {
                   label: "Start Date",
-                  initialDate: this.properties.startDate,
-                  dateConvention: DateConvention.DateTime,
-                  timeConvention: TimeConvention.Hours12,
+                  initialDate: this.properties.startDate || new Date(),
                   onPropertyChange: this.onPropertyPaneFieldChanged.bind(this),
                   properties: this.properties,
-                  key: "startDateFieldId",
+                  dateConvention: DateConvention.DateTime,
+                  timeConvention: TimeConvention.Hours12,
+                  key: "startDatePicker",
                 }),
                 PropertyFieldDateTimePicker("endDate", {
                   label: "End Date",
-                  initialDate: this.properties.endDate,
-                  dateConvention: DateConvention.DateTime,
-                  timeConvention: TimeConvention.Hours12,
+                  initialDate: this.properties.endDate || new Date(),
                   onPropertyChange: this.onPropertyPaneFieldChanged.bind(this),
                   properties: this.properties,
-                  key: "endDateFieldId",
+                  dateConvention: DateConvention.DateTime,
+                  timeConvention: TimeConvention.Hours12,
+                  key: "endDatePicker",
                 }),
                 PropertyPaneTextField("backgroundImage", {
                   label: "Background Image Url",
-                  value:
-                    "https://www.pixelstalk.net/wp-content/uploads/2016/06/Light-blue-wallpaper-hd-quality.jpg",
+                }),
+                PropertyPaneTextField("unanet", {
+                  label: "Unanet",
+                  disabled: false,
+                }),
+                PropertyPaneTextField("adp", {
+                  label: "Adp",
+                  disabled: false,
+                }),
+                PropertyPaneTextField("helpdesk", {
+                  label: "Helpdesk",
+                  disabled: false,
+                }),
+                PropertyPaneTextField("hr", {
+                  label: "HR",
+                  disabled: false,
+                }),
+                PropertyPaneTextField("benefits", {
+                  label: "Benefits",
+                  disabled: false,
+                }),
+                PropertyPaneTextField("training", {
+                  label: "Training",
+                  disabled: false,
                 }),
               ],
             },

@@ -1,74 +1,83 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as React from "react";
 import styles from "./Welcome.module.scss";
 import type { IWelcomeProps } from "./IWelcomeProps";
 import { escape } from "@microsoft/sp-lodash-subset";
 
-interface IWelcomeManagerState {
+interface IFeedbackManagerState {
   shouldDisplayDiv: boolean;
 }
 
 export default class FeedbackManager extends React.Component<
   IWelcomeProps,
-  IWelcomeManagerState
+  IFeedbackManagerState
 > {
   private intervalId: number | undefined;
 
   constructor(props: IWelcomeProps) {
     super(props);
-
-    // Initialize state
     this.state = {
       shouldDisplayDiv: false,
     };
   }
 
   componentDidMount(): void {
-    // Set up interval to check date and time conditions periodically
+    const { startDate, endDate } = this.props;
+
+    // Ensure startDate and endDate are Date objects
+
+    const parsedStartDate =
+      typeof startDate === "string" ? new Date(startDate) : startDate;
+    const parsedEndDate =
+      typeof endDate === "string" ? new Date(endDate) : endDate;
+
+    console.log(parsedStartDate);
+    console.log(parsedEndDate);
+
+    this.setState({
+      shouldDisplayDiv: this.isCurrentDateTimeBetweenDates(),
+    });
+
     this.intervalId = window.setInterval(() => {
       this.checkDisplayConditions();
     }, 1000);
   }
 
+  // UNSAFE_componentWillUpdate(): void {
+  //   this.checkDisplayConditions();
+  // }
+
   componentWillUnmount(): void {
-    // Clear the interval to prevent memory leaks
     if (this.intervalId) {
       window.clearInterval(this.intervalId);
     }
   }
 
-  // Method to check if the current date and time is between the start date and end date
   private isCurrentDateTimeBetweenDates(): boolean {
     const { startDate, endDate } = this.props;
-    const currentDateTime = new Date(); // Current date and time
+    const currentDateTime = new Date();
 
     if (startDate && endDate) {
-      return currentDateTime >= startDate && currentDateTime <= endDate;
+      const parsedStartDate =
+        typeof startDate === "string" ? new Date(startDate) : startDate;
+      const parsedEndDate =
+        typeof endDate === "string" ? new Date(endDate) : endDate;
+
+      return (
+        currentDateTime >= parsedStartDate && currentDateTime <= parsedEndDate
+      );
     }
 
     return false;
   }
 
-  // Method to check if start date is before or equal to end date
-  private isStartDateBeforeEndDate(): boolean {
-    const { startDate, endDate } = this.props;
-
-    if (startDate && endDate) {
-      return startDate <= endDate;
-    }
-
-    return true; // If one of the dates is undefined, assume the condition is true
-  }
-
-  // Method to check all conditions and update the visibility of the div
   private checkDisplayConditions(): void {
-    const { toggle } = this.props;
+    const shouldDisplayDiv = this.isCurrentDateTimeBetweenDates();
 
-    const shouldDisplayDiv =
-      toggle &&
-      this.isCurrentDateTimeBetweenDates() &&
-      this.isStartDateBeforeEndDate();
-
-    this.setState({ shouldDisplayDiv });
+    // Only update the state if the value has changed
+    if (this.state.shouldDisplayDiv !== shouldDisplayDiv) {
+      this.setState({ shouldDisplayDiv });
+    }
   }
 
   public render(): React.ReactElement<IWelcomeProps> {
@@ -78,14 +87,16 @@ export default class FeedbackManager extends React.Component<
       dropdown,
       welcome,
       backgroundImage,
+      unanet,
+      adp,
+      hr,
+      helpdesk,
+      training,
+      benefits,
     } = this.props;
 
-    // Ensure dropdown is defined and has a valid value
     const safeDropdown = dropdown || "No selection";
-
-    // Determine the background color based on dropdown value
     const backgroundColor = safeDropdown.toLowerCase();
-
     const divStyle = {
       backgroundImage: "url(" + escape(backgroundImage) + ")",
       backgroundSize: "cover",
@@ -94,6 +105,9 @@ export default class FeedbackManager extends React.Component<
       width: "100%",
       height: "100%",
     };
+
+    // Extract first name from userDisplayName
+    const firstName = userDisplayName ? userDisplayName.split(" ")[0] : "";
 
     return (
       <section>
@@ -107,17 +121,14 @@ export default class FeedbackManager extends React.Component<
               color: "white",
             }}
           >
-            <span>Notification :</span> <br />
+            <span>Notification : </span>
             {escape(notificationMessage)}
           </div>
         )}
-
         <div className={styles.welcome} style={divStyle}>
           <div className={styles.mainWelcomeTitle}>
             Welcome,{" "}
-            <div className={styles.mainEmployeeTitle}>
-              {escape(userDisplayName)}!
-            </div>
+            <div className={styles.mainEmployeeTitle}>{escape(firstName)}!</div>
           </div>
 
           <div className={styles.welcomeMessage}>{escape(welcome)}</div>
@@ -129,9 +140,7 @@ export default class FeedbackManager extends React.Component<
                   <img alt="" src={require("../assets/unanet.png")} />
                 </div>
                 <div>
-                  <a href="https://intact-tech.unanet.biz/subcontractor">
-                    Unanet
-                  </a>
+                  <a href={escape(unanet)}>Unanet</a>
                 </div>
               </li>
               <li>
@@ -139,9 +148,7 @@ export default class FeedbackManager extends React.Component<
                   <img alt="" src={require("../assets/adp.png")} />
                 </div>
                 <div>
-                  <a href="https://online.adp.com/signin/v1/?APPID=WFNPortal&productId=80e309c3-7085-bae1-e053-3505430b5495">
-                    ADP
-                  </a>
+                  <a href={escape(adp)}>ADP</a>
                 </div>
               </li>
               <li>
@@ -149,7 +156,7 @@ export default class FeedbackManager extends React.Component<
                   <img alt="" src={require("../assets/helpdesk.png")} />
                 </div>
                 <div>
-                  <a href="">Helpdesk</a>
+                  <a href={escape(helpdesk)}>Helpdesk</a>
                 </div>
               </li>
               <li>
@@ -157,7 +164,7 @@ export default class FeedbackManager extends React.Component<
                   <img alt="" src={require("../assets/hr.png")} />
                 </div>
                 <div>
-                  <a href="">HR</a>
+                  <a href={escape(hr)}>HR</a>
                 </div>
               </li>
               <li>
@@ -165,9 +172,7 @@ export default class FeedbackManager extends React.Component<
                   <img alt="" src={require("../assets/benifits.png")} />
                 </div>
                 <div>
-                  <a href="https://intacttech.sharepoint.com/sites/PeopleOperations/SitePages/Standard-Benefits-Offered.aspx">
-                    Benifits
-                  </a>
+                  <a href={escape(benefits)}>Benefits</a>
                 </div>
               </li>
               <li>
@@ -175,7 +180,7 @@ export default class FeedbackManager extends React.Component<
                   <img alt="" src={require("../assets/training.png")} />
                 </div>
                 <div>
-                  <a href="">Training</a>
+                  <a href={escape(training)}>Training</a>
                 </div>
               </li>
             </ul>

@@ -1,4 +1,4 @@
-@import '~@fluentui/react/dist/sass/References.scss';
+@import "~@fluentui/react/dist/sass/References.scss";
 
 .notificationWarring {
   font-size: 14px;
@@ -39,29 +39,26 @@
 
 .mainImportantlogoes {
   display: flex;
-  justify-content: space-around; /* Adjusts spacing between logos */
-  flex-wrap: nowrap; /* Prevents wrapping to a new line */
-  padding: 0;
-  margin-left: 100px;
-  margin-right: 100px;
-  margin-bottom: 20px;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 15px;
+  padding: 50px;
+  margin: 0px 5rem 0px 5rem;
   list-style: none;
 }
 
 .mainImportantlogoes li {
-  margin: 0 0px; /* Reduces the space between each logo */
-  flex: 0 1 auto; /* Ensures logos do not stretch, maintaining their natural size */
-  text-align: center; /* Center aligns the logos */
+  text-align: center;
 }
 
 .mainImportantlogoes img {
-  max-width: 100%; /* Ensures the images do not exceed the container width */
-  height: auto; /* Maintains the aspect ratio */
+  max-width: 100%;
+  height: auto;
 }
 
 .mainImportantlogoes a {
   display: block;
-  margin-top: 5px; /* Adds some space between the image and the link */
+  margin-top: 5px;
   text-decoration: none;
   color: #424242;
 }

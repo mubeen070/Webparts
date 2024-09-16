@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "feedback-manager-client-side-solution",
+    "id": "7cdc4123-0374-49a4-a04e-623094ae5695",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.19.0"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "feedback-manager description"
+      },
+      "longDescription": {
+        "default": "feedback-manager description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "feedback-manager Feature",
+        "description": "The feature that activates elements of the feedback-manager solution.",
+        "id": "ad714059-58e9-4f52-9b99-5a28c2853167",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/feedback-manager.sppkg"
+  }
+}
