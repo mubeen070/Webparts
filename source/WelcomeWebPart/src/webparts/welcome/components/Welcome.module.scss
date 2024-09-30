@@ -20,7 +20,7 @@
 }
 
 .mainEmployeeTitle {
-  color: #5286ff;
+  color: black;
   font-size: 38px;
   font-weight: bold;
   margin: 0;
@@ -32,9 +32,8 @@
   white-space: pre-wrap;
   margin-left: 2em;
   margin-right: 2em;
-  margin-bottom: 2rem;
   margin-top: -1rem;
-  padding: 20px;
+  padding: 30px;
 }
 
 .mainImportantlogoes {
@@ -43,7 +42,7 @@
   flex-wrap: nowrap;
   gap: 15px;
   padding: 50px;
-  margin: 0px 5rem 0px 5rem;
+  margin: 0px 2rem 0px 2rem;
   list-style: none;
 }
 
@@ -58,9 +57,9 @@
 
 .mainImportantlogoes a {
   display: block;
-  margin-top: 5px;
   text-decoration: none;
   color: #424242;
+  font-size: 11px; /* Added this line */
 }
 
 .mainImportantlogoes a:hover {

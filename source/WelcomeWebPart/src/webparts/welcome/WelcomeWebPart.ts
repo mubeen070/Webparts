@@ -53,8 +53,8 @@ export default class WelcomeWebPart extends BaseClientSideWebPart<IWelcomeWebPar
         backgroundImage: this.properties.backgroundImage,
         unanet: this.properties.unanet,
         adp: this.properties.adp,
-        helpdesk: this.properties.helpdesk,
-        hr: this.properties.hr,
+        techSupport: this.properties.helpdesk,
+        employDirectory: this.properties.hr,
         benefits: this.properties.benefits,
         training: this.properties.training,
       }
@@ -209,12 +209,12 @@ export default class WelcomeWebPart extends BaseClientSideWebPart<IWelcomeWebPar
                   label: "Adp",
                   disabled: false,
                 }),
-                PropertyPaneTextField("helpdesk", {
-                  label: "Helpdesk",
+                PropertyPaneTextField("techSupport", {
+                  label: "Tech Support",
                   disabled: false,
                 }),
-                PropertyPaneTextField("hr", {
-                  label: "HR",
+                PropertyPaneTextField("employDirectory", {
+                  label: "Employ Directory",
                   disabled: false,
                 }),
                 PropertyPaneTextField("benefits", {

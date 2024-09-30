@@ -89,8 +89,8 @@ export default class FeedbackManager extends React.Component<
       backgroundImage,
       unanet,
       adp,
-      hr,
-      helpdesk,
+      employDirectory,
+      techSupport,
       training,
       benefits,
     } = this.props;
@@ -156,7 +156,7 @@ export default class FeedbackManager extends React.Component<
                   <img alt="" src={require("../assets/helpdesk.png")} />
                 </div>
                 <div>
-                  <a href={escape(helpdesk)}>Helpdesk</a>
+                  <a href={escape(techSupport)}>Tech Support</a>
                 </div>
               </li>
               <li>
@@ -164,7 +164,7 @@ export default class FeedbackManager extends React.Component<
                   <img alt="" src={require("../assets/hr.png")} />
                 </div>
                 <div>
-                  <a href={escape(hr)}>HR</a>
+                  <a href={escape(employDirectory)}>Employ Directory</a>
                 </div>
               </li>
               <li>

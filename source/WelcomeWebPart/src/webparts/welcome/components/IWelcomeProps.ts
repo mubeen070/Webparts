@@ -11,8 +11,8 @@ export interface IWelcomeProps {
   backgroundImage: string;
   unanet: string;
   adp: string;
-  helpdesk: string;
-  hr: string;
+  techSupport: string;
+  employDirectory: string;
   benefits: string;
   training: string;
 }
